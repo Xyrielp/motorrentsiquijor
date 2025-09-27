@@ -91,7 +91,7 @@ const Home = () => {
             gap: '16px'
           }}>
             {featuredShops.data.slice(0, 3).map(shop => (
-              <div key={shop._id} style={{
+              <div key={shop.id || shop._id} style={{
                 background: 'white',
                 padding: '20px',
                 borderRadius: '12px',
@@ -105,7 +105,7 @@ const Home = () => {
                   {shop.name}
                 </h3>
                 <p style={{ color: '#666', fontSize: '14px', marginBottom: '12px' }}>
-                  {shop.description.substring(0, 100)}...
+                  {shop.description?.substring(0, 100) || 'No description available'}...
                 </p>
                 <div style={{ display: 'flex', justifyContent: 'center', gap: '16px', fontSize: '12px', color: '#666' }}>
                   <span>⭐ {shop.rating}</span>
@@ -197,7 +197,7 @@ const Home = () => {
       ) : motorcycles.length > 0 ? (
         <div className="products-grid">
           {motorcycles.map(motorcycle => (
-            <MotorcycleCard key={motorcycle._id} motorcycle={motorcycle} />
+            <MotorcycleCard key={motorcycle.id || motorcycle._id} motorcycle={motorcycle} />
           ))}
         </div>
       ) : (
@@ -228,7 +228,7 @@ const Home = () => {
             gap: '20px'
           }}>
             {featuredPosts.data.map(post => (
-              <div key={post._id} style={{
+              <div key={post.id || post._id} style={{
                 padding: '20px',
                 border: '1px solid #eee',
                 borderRadius: '8px'

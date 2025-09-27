@@ -49,9 +49,9 @@ const AuthModal = ({ onClose }) => {
       }
     } catch (err) {
       setError('An error occurred. Please try again.');
+    } finally {
+      setLoading(false);
     }
-    
-    setLoading(false);
   };
 
   return (

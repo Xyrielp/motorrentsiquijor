@@ -31,7 +31,7 @@ const Dashboard = () => {
   }
 
   const getDashboardContent = () => {
-    switch (user.role) {
+    switch (user?.role) {
       case 'admin':
         return <AdminDashboard />;
       case 'shop_owner':

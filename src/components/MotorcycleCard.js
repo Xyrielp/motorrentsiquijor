@@ -25,7 +25,7 @@ const MotorcycleCard = ({ motorcycle }) => {
   };
 
   const getVerificationBadge = (shop) => {
-    if (shop.verificationBadge === 'premium') {
+    if (!shop || shop.verificationBadge === 'premium') {
       return <span className="verification-badge premium">✨ Premium</span>;
     }
     if (shop.verificationBadge === 'verified') {

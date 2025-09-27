@@ -164,9 +164,15 @@ export const mockUsers = [
   {
     id: 1,
     email: "demo@example.com",
-    password: "password123",
+    password: "$2a$10$demo.hash.for.frontend.only", // Hashed password for demo
     name: "Demo User",
     role: "customer",
     phone: "+639123456789"
   }
 ];
+
+// Demo credentials for frontend-only app
+export const DEMO_CREDENTIALS = {
+  email: "demo@example.com",
+  password: "password123"
+};

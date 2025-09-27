@@ -58,7 +58,7 @@ const Header = () => {
                       ❤️ Favorites {favoritesCount > 0 && `(${favoritesCount})`}
                     </Link>
                     <div className="user-menu">
-                      <span>Hi, {user.name}</span>
+                      <span>Hi, {user?.name || 'User'}</span>
                       <button onClick={handleLogout} className="btn btn-secondary">
                         Logout
                       </button>
@@ -75,7 +75,7 @@ const Header = () => {
                 <Link to="/dashboard" className="btn btn-primary">
                   Dashboard
                 </Link>
-                {isAuthenticated && user.role === 'admin' && (
+                {isAuthenticated && user?.role === 'admin' && (
                   <Link to="/admin" className="btn" style={{ background: '#dc3545', color: 'white' }}>
                     Admin
                   </Link>

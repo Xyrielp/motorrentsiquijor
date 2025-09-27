@@ -1,27 +1,33 @@
-import { mockMotorcycles, mockShops, mockBlogPosts, mockReviews, mockUsers } from '../data/mockData';
+import { mockMotorcycles, mockShops, mockBlogPosts, mockReviews, mockUsers, DEMO_CREDENTIALS } from '../data/mockData';
 
 // Mock API responses
 const mockResponse = (data) => Promise.resolve({ data });
 const mockError = (message) => Promise.reject({ response: { data: { message } } });
 
+// Generate unique ID safely
+const generateId = () => `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+
 // Auth API
 export const authAPI = {
   login: (email, password) => {
-    const user = mockUsers.find(u => u.email === email && u.password === password);
-    if (user) {
-      const token = 'mock-jwt-token';
-      localStorage.setItem('token', token);
+    // Simple demo authentication - only for frontend demo
+    if (email === DEMO_CREDENTIALS.email && password === DEMO_CREDENTIALS.password) {
+      const token = `demo-token-${generateId()}`;
+      const user = mockUsers[0];
+      sessionStorage.setItem('token', token); // Use sessionStorage instead of localStorage
       return mockResponse({ token, user: { ...user, password: undefined } });
     }
     return mockError('Invalid credentials');
   },
   register: (userData) => {
-    const newUser = { ...userData, id: Date.now(), role: 'customer' };
-    return mockResponse({ token: 'mock-jwt-token', user: newUser });
+    const newUser = { ...userData, id: generateId(), role: 'customer' };
+    const token = `demo-token-${generateId()}`;
+    sessionStorage.setItem('token', token);
+    return mockResponse({ token, user: newUser });
   },
   getMe: () => {
-    const token = localStorage.getItem('token');
-    if (token) {
+    const token = sessionStorage.getItem('token');
+    if (token && token.startsWith('demo-token-')) {
       return mockResponse(mockUsers[0]);
     }
     return mockError('Not authenticated');
@@ -68,7 +74,8 @@ export const shopsAPI = {
 // Bookings API
 export const bookingsAPI = {
   create: (bookingData) => {
-    const booking = { ...bookingData, id: Date.now(), confirmationCode: 'BOOK' + Date.now() };
+    const id = generateId();
+    const booking = { ...bookingData, id, confirmationCode: `BOOK${id.slice(-8).toUpperCase()}` };
     return mockResponse(booking);
   },
   checkAvailability: (data) => mockResponse({ available: true }),
@@ -85,7 +92,7 @@ export const reviewsAPI = {
     return mockResponse(reviews);
   },
   create: (reviewData) => {
-    const review = { ...reviewData, id: Date.now(), date: new Date().toISOString() };
+    const review = { ...reviewData, id: generateId(), date: new Date().toISOString() };
     return mockResponse(review);
   },
   markHelpful: (reviewId) => mockResponse({ success: true }),
