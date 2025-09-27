@@ -45,7 +45,9 @@ export const motorcyclesAPI = {
     return mockResponse(filtered);
   },
   getById: (id) => {
-    const motorcycle = mockMotorcycles.find(m => m.id === parseInt(id));
+    const parsedId = parseInt(id);
+    if (isNaN(parsedId)) return mockError('Invalid motorcycle ID');
+    const motorcycle = mockMotorcycles.find(m => m.id === parsedId);
     return motorcycle ? mockResponse(motorcycle) : mockError('Motorcycle not found');
   },
   search: (query) => {
@@ -55,13 +57,16 @@ export const motorcyclesAPI = {
     );
     return mockResponse(results);
   },
+  create: (data) => mockResponse({ id: generateId(), ...data })
 };
 
 // Shops API
 export const shopsAPI = {
   getAll: (params) => mockResponse(mockShops),
   getById: (id) => {
-    const shop = mockShops.find(s => s.id === parseInt(id));
+    const parsedId = parseInt(id);
+    if (isNaN(parsedId)) return mockError('Invalid shop ID');
+    const shop = mockShops.find(s => s.id === parsedId);
     if (shop) {
       const shopMotorcycles = mockMotorcycles.filter(m => shop.motorcycles.includes(m.id));
       return mockResponse({ ...shop, motorcycles: shopMotorcycles });
@@ -72,7 +77,8 @@ export const shopsAPI = {
   approve: (id) => mockResponse({ success: true }),
   reject: (id) => mockResponse({ success: true }),
   verify: (id) => mockResponse({ success: true }),
-  suspend: (id) => mockResponse({ success: true })
+  suspend: (id) => mockResponse({ success: true }),
+  update: (data) => mockResponse({ success: true })
 };
 
 // Bookings API
@@ -87,12 +93,15 @@ export const bookingsAPI = {
     const booking = { id: 1, confirmationCode: code, status: 'confirmed' };
     return mockResponse(booking);
   },
+  getMyBookings: () => mockResponse([])
 };
 
 // Reviews API
 export const reviewsAPI = {
   getByMotorcycle: (motorcycleId) => {
-    const reviews = mockReviews.filter(r => r.motorcycleId === parseInt(motorcycleId));
+    const parsedId = parseInt(motorcycleId);
+    if (isNaN(parsedId)) return mockError('Invalid motorcycle ID');
+    const reviews = mockReviews.filter(r => r.motorcycleId === parsedId);
     return mockResponse(reviews);
   },
   create: (reviewData) => {

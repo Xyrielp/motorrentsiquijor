@@ -6,6 +6,10 @@ import { useAuth } from '../contexts/AuthContext';
 const MotorcycleCard = ({ motorcycle }) => {
   const { toggleFavorite, isFavorite } = useFavorites();
   const { isAuthenticated } = useAuth();
+  
+  if (!motorcycle) {
+    return <div>Loading...</div>;
+  }
 
   const handleFavoriteClick = (e) => {
     e.preventDefault();

@@ -30,14 +30,19 @@ const AdminRoute = ({ children }) => {
     );
   }
 
-  // Debug: Show user info
-  console.log('User:', user);
-  console.log('User role:', user?.role);
-
-  // Temporarily allow all authenticated users
-  // if (user?.role !== 'admin') {
-  //   return access denied component
-  // }
+  // Demo: Show admin access warning for non-admin users
+  if (user?.role !== 'admin') {
+    return (
+      <div style={{ padding: '20px', textAlign: 'center', background: '#fff3cd', border: '1px solid #ffeaa7', borderRadius: '8px', margin: '20px' }}>
+        <h3>⚠️ Demo Admin Access</h3>
+        <p>In production, this would require admin privileges.</p>
+        <p>Current user role: {user?.role || 'customer'}</p>
+        <div style={{ marginTop: '20px' }}>
+          {children}
+        </div>
+      </div>
+    );
+  }
 
   return children;
 };

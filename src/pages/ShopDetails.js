@@ -8,10 +8,24 @@ const ShopDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const { data: shopData, isLoading } = useQuery({
+  const { data: shopData, isLoading, error } = useQuery({
     queryKey: ['shop', id],
     queryFn: () => shopsAPI.getById(id),
   });
+  
+  if (error) {
+    return (
+      <div className="container">
+        <div className="empty-state">
+          <h3>Error loading shop details</h3>
+          <p>Please try again later.</p>
+          <button onClick={() => navigate('/shops')} className="btn btn-primary">
+            Back to Shops
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   if (isLoading) {
     return (

@@ -142,7 +142,7 @@ const Home = () => {
                 min="0"
                 max="5000"
                 value={filters.minPrice}
-                onChange={(e) => handleFilterChange('minPrice', parseInt(e.target.value))}
+                onChange={(e) => handleFilterChange('minPrice', parseInt(e.target.value) || 0)}
               />
               <span>₱{filters.minPrice} - ₱{filters.maxPrice}</span>
               <input
@@ -150,7 +150,7 @@ const Home = () => {
                 min="0"
                 max="5000"
                 value={filters.maxPrice}
-                onChange={(e) => handleFilterChange('maxPrice', parseInt(e.target.value))}
+                onChange={(e) => handleFilterChange('maxPrice', parseInt(e.target.value) || 5000)}
               />
             </div>
           </div>
