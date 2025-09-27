@@ -106,3 +106,18 @@ export const blogAPI = {
     return mockResponse(results);
   },
 };
+
+// Default export for backward compatibility
+const api = {
+  get: (url) => {
+    if (url.includes('/motorcycles')) return motorcyclesAPI.getAll();
+    if (url.includes('/shops')) return shopsAPI.getAll();
+    if (url.includes('/blog')) return blogAPI.getAll();
+    return mockResponse([]);
+  },
+  post: (url, data) => mockResponse({ success: true, data }),
+  put: (url, data) => mockResponse({ success: true, data }),
+  delete: (url) => mockResponse({ success: true })
+};
+
+export default api;
