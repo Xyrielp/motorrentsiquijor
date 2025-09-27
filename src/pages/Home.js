@@ -56,8 +56,8 @@ const Home = () => {
     });
   };
 
-  const motorcycles = motorcyclesData?.data?.motorcycles || [];
-  const totalResults = motorcyclesData?.data?.total || 0;
+  const motorcycles = motorcyclesData?.data || [];
+  const totalResults = motorcycles.length || 0;
 
   return (
     <div className="container">
@@ -90,8 +90,8 @@ const Home = () => {
             gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
             gap: '16px'
           }}>
-            {featuredShops.data.slice(0, 3).map(shop => (
-              <div key={shop.id || shop._id} style={{
+            {featuredShops.data.slice(0, 3).map((shop, index) => (
+              <div key={shop.id || shop._id || index} style={{
                 background: 'white',
                 padding: '20px',
                 borderRadius: '12px',
@@ -196,8 +196,8 @@ const Home = () => {
         </div>
       ) : motorcycles.length > 0 ? (
         <div className="products-grid">
-          {motorcycles.map(motorcycle => (
-            <MotorcycleCard key={motorcycle.id || motorcycle._id} motorcycle={motorcycle} />
+          {motorcycles.map((motorcycle, index) => (
+            <MotorcycleCard key={motorcycle.id || motorcycle._id || index} motorcycle={motorcycle} />
           ))}
         </div>
       ) : (
@@ -227,8 +227,8 @@ const Home = () => {
             gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
             gap: '20px'
           }}>
-            {featuredPosts.data.map(post => (
-              <div key={post.id || post._id} style={{
+            {featuredPosts.data.map((post, index) => (
+              <div key={post.id || post._id || index} style={{
                 padding: '20px',
                 border: '1px solid #eee',
                 borderRadius: '8px'
