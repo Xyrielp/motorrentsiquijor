@@ -69,6 +69,10 @@ export const shopsAPI = {
     return mockError('Shop not found');
   },
   getFeatured: () => mockResponse(mockShops.filter(s => s.premium)),
+  approve: (id) => mockResponse({ success: true }),
+  reject: (id) => mockResponse({ success: true }),
+  verify: (id) => mockResponse({ success: true }),
+  suspend: (id) => mockResponse({ success: true })
 };
 
 // Bookings API
@@ -112,19 +116,8 @@ export const blogAPI = {
     );
     return mockResponse(results);
   },
+  create: (data) => mockResponse({ id: generateId(), ...data }),
+  update: (id, data) => mockResponse({ success: true }),
+  delete: (id) => mockResponse({ success: true })
 };
 
-// Default export for backward compatibility
-const api = {
-  get: (url) => {
-    if (url.includes('/motorcycles')) return motorcyclesAPI.getAll();
-    if (url.includes('/shops')) return shopsAPI.getAll();
-    if (url.includes('/blog')) return blogAPI.getAll();
-    return mockResponse([]);
-  },
-  post: (url, data) => mockResponse({ success: true, data }),
-  put: (url, data) => mockResponse({ success: true, data }),
-  delete: (url) => mockResponse({ success: true })
-};
-
-export default api;
