@@ -6,10 +6,21 @@ import { blogAPI } from '../services/api';
 const Blog = () => {
   const [selectedCategory, setSelectedCategory] = useState('');
   
-  const { data: blogData, isLoading } = useQuery({
+  const { data: blogData, isLoading, error } = useQuery({
     queryKey: ['blog', selectedCategory],
     queryFn: () => blogAPI.getAll({ category: selectedCategory }),
   });
+  
+  if (error) {
+    return (
+      <div className="container">
+        <div className="empty-state">
+          <h3>Error loading blog posts</h3>
+          <p>Please try again later.</p>
+        </div>
+      </div>
+    );
+  }
 
   const posts = blogData?.data?.posts || [];
 

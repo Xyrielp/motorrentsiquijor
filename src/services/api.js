@@ -5,7 +5,7 @@ const mockResponse = (data) => Promise.resolve({ data });
 const mockError = (message) => Promise.reject({ response: { data: { message } } });
 
 // Generate unique ID safely
-const generateId = () => `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+const generateId = () => `${Date.now()}-${Math.random().toString(36).slice(2, 11)}`;
 
 // Auth API
 export const authAPI = {

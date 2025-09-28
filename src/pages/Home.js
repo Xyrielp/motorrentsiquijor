@@ -15,7 +15,7 @@ const Home = () => {
     search: searchParams.get('search') || ''
   });
 
-  const { data: motorcyclesData, isLoading } = useQuery({
+  const { data: motorcyclesData, isLoading, error } = useQuery({
     queryKey: ['motorcycles', filters],
     queryFn: () => motorcyclesAPI.getAll(filters),
   });
@@ -29,6 +29,20 @@ const Home = () => {
     queryKey: ['featuredPosts'],
     queryFn: () => blogAPI.getFeatured(),
   });
+  
+  if (error) {
+    return (
+      <div className="container">
+        <div className="empty-state">
+          <h3>Error loading motorcycles</h3>
+          <p>Please try again later.</p>
+          <button onClick={() => window.location.reload()} className="btn btn-primary">
+            Retry
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   useEffect(() => {
     setFilters(prev => ({
@@ -62,18 +76,11 @@ const Home = () => {
   return (
     <div className="container">
       {/* Hero Section */}
-      <div style={{
-        background: 'linear-gradient(135deg, #ee4d2d, #ff6b35)',
-        color: 'white',
-        padding: '40px 20px',
-        borderRadius: '12px',
-        textAlign: 'center',
-        marginBottom: '32px'
-      }}>
-        <h1 style={{ fontSize: '32px', marginBottom: '16px' }}>
+      <div className="hero-section">
+        <h1 className="hero-title">
           🏍️ Explore Siquijor Island on Two Wheels
         </h1>
-        <p style={{ fontSize: '18px', opacity: 0.9 }}>
+        <p className="hero-subtitle">
           Rent premium motorcycles from verified local shops. 
           Discover the mystical beauty of Siquijor at your own pace.
         </p>
@@ -81,33 +88,23 @@ const Home = () => {
 
       {/* Featured Shops */}
       {featuredShops?.data && featuredShops.data.length > 0 && (
-        <section style={{ marginBottom: '32px' }}>
-          <h2 style={{ marginBottom: '20px', color: '#333' }}>
+        <section className="featured-shops">
+          <h2>
             ✨ Featured Verified Shops
           </h2>
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-            gap: '16px'
-          }}>
+          <div className="shops-grid">
             {featuredShops.data.slice(0, 3).map((shop, index) => (
-              <div key={shop.id || shop._id || index} style={{
-                background: 'white',
-                padding: '20px',
-                borderRadius: '12px',
-                boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-                textAlign: 'center'
-              }}>
-                <div style={{ fontSize: '32px', marginBottom: '12px' }}>
+              <div key={shop.id || shop._id || index} className="shop-card">
+                <div className="shop-logo">
                   {shop.logo || '🏪'}
                 </div>
-                <h3 style={{ color: '#333', marginBottom: '8px' }}>
+                <h3 className="shop-name">
                   {shop.name}
                 </h3>
-                <p style={{ color: '#666', fontSize: '14px', marginBottom: '12px' }}>
+                <p className="shop-description">
                   {shop.description?.substring(0, 100) || 'No description available'}...
                 </p>
-                <div style={{ display: 'flex', justifyContent: 'center', gap: '16px', fontSize: '12px', color: '#666' }}>
+                <div className="shop-meta">
                   <span>⭐ {shop.rating}</span>
                   <span>📍 {shop.location}</span>
                 </div>
@@ -176,14 +173,8 @@ const Home = () => {
           </div>
         </div>
 
-        <div style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          paddingTop: '16px',
-          borderTop: '1px solid #eee'
-        }}>
-          <span style={{ color: '#666' }}>
+        <div className="filters-summary">
+          <span>
             {totalResults} motorcycles found in Siquijor
           </span>
         </div>
@@ -212,36 +203,22 @@ const Home = () => {
 
       {/* Travel Tips Section */}
       {featuredPosts?.data && featuredPosts.data.length > 0 && (
-        <section style={{ 
-          marginTop: '48px', 
-          padding: '32px', 
-          background: 'white', 
-          borderRadius: '12px',
-          boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
-        }}>
-          <h2 style={{ marginBottom: '20px', color: '#333' }}>
+        <section className="travel-guide">
+          <h2>
             📖 Siquijor Travel Guide
           </h2>
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-            gap: '20px'
-          }}>
+          <div className="guide-grid">
             {featuredPosts.data.map((post, index) => (
-              <div key={post.id || post._id || index} style={{
-                padding: '20px',
-                border: '1px solid #eee',
-                borderRadius: '8px'
-              }}>
-                <h3 style={{ color: '#333', marginBottom: '12px' }}>
+              <div key={post.id || post._id || index} className="guide-card">
+                <h3 className="guide-title">
                   {post.title}
                 </h3>
-                <p style={{ color: '#666', fontSize: '14px' }}>
+                <p className="guide-excerpt">
                   {post.excerpt}
                 </p>
                 <a 
                   href={`/blog/${post.slug}`}
-                  style={{ color: '#ee4d2d', fontSize: '14px', fontWeight: '500' }}
+                  className="guide-link"
                 >
                   Read More →
                 </a>

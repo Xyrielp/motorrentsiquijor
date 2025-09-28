@@ -15,6 +15,9 @@ import Dashboard from './pages/Dashboard';
 import AdminDashboard from './admin/pages/AdminDashboard';
 import AdminRoute from './admin/components/AdminRoute';
 import './App.css';
+import './styles/responsive.css';
+import './styles/components.css';
+import './styles/mobile.css';
 
 const queryClient = new QueryClient();
 

@@ -284,7 +284,7 @@ const ShopDetails = () => {
               <h3 style={{ marginBottom: '16px', color: '#333' }}>Operating Hours</h3>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
                 <span>🕒</span>
-                <span>{shop.operatingHours.open} - {shop.operatingHours.close}</span>
+                <span>{shop.operatingHours?.open || '9:00 AM'} - {shop.operatingHours?.close || '6:00 PM'}</span>
               </div>
               {shop.operatingHours.days && (
                 <div style={{ fontSize: '14px', color: '#666' }}>
