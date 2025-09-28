@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, useMemo } from 'react';
+import React, { createContext, useContext, useState, useEffect, useMemo, useCallback } from 'react';
 import { authAPI } from '../services/api';
 
 const AuthContext = createContext();
@@ -33,7 +33,7 @@ export const AuthProvider = ({ children }) => {
     }
   }, []);
 
-  const login = async (email, password) => {
+  const login = useCallback(async (email, password) => {
     try {
       const response = await authAPI.login(email, password);
       const { token, user } = response.data;
@@ -48,9 +48,9 @@ export const AuthProvider = ({ children }) => {
         message: error.response?.data?.message || 'Login failed' 
       };
     }
-  };
+  }, []);
 
-  const register = async (userData) => {
+  const register = useCallback(async (userData) => {
     try {
       const response = await authAPI.register(userData);
       const { token, user } = response.data;
@@ -65,7 +65,7 @@ export const AuthProvider = ({ children }) => {
         message: error.response?.data?.message || 'Registration failed' 
       };
     }
-  };
+  }, []);
 
   const logout = () => {
     sessionStorage.removeItem('token');
@@ -79,7 +79,7 @@ export const AuthProvider = ({ children }) => {
     logout,
     loading,
     isAuthenticated: !!user
-  }), [user, loading]);
+  }), [user, loading, login, register, logout]);
 
   return (
     <AuthContext.Provider value={value}>

@@ -51,6 +51,7 @@ export const motorcyclesAPI = {
     return motorcycle ? mockResponse(motorcycle) : mockError('Motorcycle not found');
   },
   search: (query) => {
+    if (!query || typeof query !== 'string') return mockResponse([]);
     const results = mockMotorcycles.filter(m => 
       m.name.toLowerCase().includes(query.toLowerCase()) ||
       m.brand.toLowerCase().includes(query.toLowerCase())
@@ -120,6 +121,7 @@ export const blogAPI = {
   },
   getFeatured: () => mockResponse(mockBlogPosts.filter(p => p.featured)),
   search: (query) => {
+    if (!query || typeof query !== 'string') return mockResponse([]);
     const results = mockBlogPosts.filter(p => 
       p.title.toLowerCase().includes(query.toLowerCase())
     );

@@ -4,10 +4,21 @@ import { useQuery } from '@tanstack/react-query';
 import { shopsAPI } from '../services/api';
 
 const Shops = () => {
-  const { data: shopsData, isLoading } = useQuery({
+  const { data: shopsData, isLoading, error } = useQuery({
     queryKey: ['shops'],
     queryFn: () => shopsAPI.getAll({ location: 'Siquijor' }),
   });
+  
+  if (error) {
+    return (
+      <div className="container">
+        <div className="empty-state">
+          <h3>Error loading shops</h3>
+          <p>Please try again later.</p>
+        </div>
+      </div>
+    );
+  }
 
   const shops = shopsData?.data || [];
 
