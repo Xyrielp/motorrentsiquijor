@@ -29,6 +29,14 @@ const Home = () => {
     queryKey: ['featuredPosts'],
     queryFn: () => blogAPI.getFeatured(),
   });
+
+  useEffect(() => {
+    setFilters(prev => ({
+      ...prev,
+      category: searchParams.get('category') || '',
+      search: searchParams.get('search') || ''
+    }));
+  }, [searchParams]);
   
   if (error) {
     return (
@@ -43,14 +51,6 @@ const Home = () => {
       </div>
     );
   }
-
-  useEffect(() => {
-    setFilters(prev => ({
-      ...prev,
-      category: searchParams.get('category') || '',
-      search: searchParams.get('search') || ''
-    }));
-  }, [searchParams]);
 
   const handleFilterChange = (key, value) => {
     setFilters(prev => ({
